@@ -1,10 +1,12 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using Photon.Pun;
+using Photon.Realtime; // This namespace contains the RoomOptions class
 using UnityEngine;
 using UnityEngine.UI;
 using PhotonHashtable = ExitGames.Client.Photon.Hashtable;
 
-public class MainMenuManager : MonoBehaviour {
+public class MainMenuManager : MonoBehaviourPunCallbacks {
 
 
 		public string gameVersion = "1.0";
@@ -42,15 +44,16 @@ public class MainMenuManager : MonoBehaviour {
 			MainCanvas.enabled = false;
 			RegisterCanvas.enabled = true;
 		}
-			PhotonNetwork.ConnectUsingSettings (gameVersion);
-			PhotonNetwork.automaticallySyncScene = true;
+			//PhotonNetwork.ConnectUsingSettings (gameVersion);
+			// PhotonNetwork.ConnectUsingSettings(gameVersion);
+			// PhotonNetwork.automaticallySyncScene = true;
 
 		}
 
 		void CheckGameStart ()
 		{
-			if(PhotonNetwork.room.PlayerCount == PhotonNetwork.room.MaxPlayers){
-				PhotonNetwork.room.IsOpen = false;
+			if(PhotonNetwork.CurrentRoom.PlayerCount == PhotonNetwork.CurrentRoom.MaxPlayers){
+				PhotonNetwork.CurrentRoom.IsOpen = false;
 				PhotonNetwork.LoadLevel (1);
 			}
 		}
@@ -154,28 +157,28 @@ public class MainMenuManager : MonoBehaviour {
 
 
 		}
-		void OnPhotonRandomJoinFailed ()
-		{
-			byte expectedMaxPlayers;
-			RoomOptions roomOptions = new RoomOptions ();
-
-			switch(currentMacthFilter)
-			{
-
-		case MatchFilters.NORMAL:
-				expectedMaxPlayers = 3;
-				roomOptions.maxPlayers = expectedMaxPlayers;
-			roomOptions.customRoomProperties = new PhotonHashtable () {{"NORMAL", 1}};
-			roomOptions.customRoomPropertiesForLobby = new string[] {"NORMAL"};
-
-				PhotonNetwork.CreateRoom (null, roomOptions, TypedLobby.Default);
-				break;
-
-			}
-		}
+		// void OnPhotonRandomJoinFailed ()
+		// {
+		// 	byte expectedMaxPlayers;
+		// 	RoomOptions roomOptions = new RoomOptions ();
+		//
+		// 	switch(currentMacthFilter)
+		// 	{
+		//
+		// // case MatchFilters.NORMAL:
+		// // 		expectedMaxPlayers = 3;
+		// // 		roomOptions.maxPlayers = expectedMaxPlayers;
+		// // 	roomOptions.customRoomProperties = new PhotonHashtable () {{"NORMAL", 1}};
+		// // 	roomOptions.customRoomPropertiesForLobby = new string[] {"NORMAL"};
+		//
+		// 		PhotonNetwork.CreateRoom (null, roomOptions, TypedLobby.Default);
+		// 		break;
+		//
+		// 	}
+		// }
 
 		void Update () {
-		CoStateText.text = PhotonNetwork.connectionStateDetailed.ToString ();
+		//CoStateText.text = PhotonNetwork.connectionStateDetailed.ToString ();
 
 
 		// TODO DELETE
@@ -189,9 +192,9 @@ public class MainMenuManager : MonoBehaviour {
 				CheckGameStart ();
 			}
 
-			if(PhotonNetwork.inRoom){
-				PlayerCountText.text = "Waiting for more players : " + PhotonNetwork.room.PlayerCount + " / " + PhotonNetwork.room.MaxPlayers;
-			}
+			//if(PhotonNetwork.inRoom){
+			//	PlayerCountText.text = "Waiting for more players : " + PhotonNetwork.room.PlayerCount + " / " + PhotonNetwork.room.MaxPlayers;
+			//}
 
 		}
 
@@ -202,24 +205,24 @@ public class MainMenuManager : MonoBehaviour {
 
 		RoomUI.SetActive (true);
 
-			if (PhotonNetwork.room.PlayerCount == 1) {
-				PhotonHashtable Player = new PhotonHashtable () { { "player", "P1" } };
-				PhotonNetwork.player.SetCustomProperties (Player);
-				PhotonNetwork.player.NickName = "Player 1";
-			} else if (PhotonNetwork.room.PlayerCount == 2) {
-				PhotonHashtable Player = new PhotonHashtable () { { "player", "P2" } };
-				PhotonNetwork.player.SetCustomProperties (Player);
-				PhotonNetwork.player.NickName = "Player 2";
-			} else if (PhotonNetwork.room.PlayerCount == 3) {
-				PhotonHashtable Player = new PhotonHashtable () { { "player", "P3" } };
-				PhotonNetwork.player.SetCustomProperties (Player);
-				PhotonNetwork.player.NickName = "Player 3";
-			} 
-
-			if(PhotonNetwork.isMasterClient){
-				print ("you are master client, waiting for full amount of players to start the game");
-				checkGameStart = true;
-			}
+			// if (PhotonNetwork.room.PlayerCount == 1) {
+			// 	PhotonHashtable Player = new PhotonHashtable () { { "player", "P1" } };
+			// 	PhotonNetwork.player.SetCustomProperties (Player);
+			// 	PhotonNetwork.player.NickName = "Player 1";
+			// } else if (PhotonNetwork.room.PlayerCount == 2) {
+			// 	PhotonHashtable Player = new PhotonHashtable () { { "player", "P2" } };
+			// 	PhotonNetwork.player.SetCustomProperties (Player);
+			// 	PhotonNetwork.player.NickName = "Player 2";
+			// } else if (PhotonNetwork.room.PlayerCount == 3) {
+			// 	PhotonHashtable Player = new PhotonHashtable () { { "player", "P3" } };
+			// 	PhotonNetwork.player.SetCustomProperties (Player);
+			// 	PhotonNetwork.player.NickName = "Player 3";
+			// } 
+			//
+			// if(PhotonNetwork.isMasterClient){
+			// 	print ("you are master client, waiting for full amount of players to start the game");
+			// 	checkGameStart = true;
+			// }
 
 
 

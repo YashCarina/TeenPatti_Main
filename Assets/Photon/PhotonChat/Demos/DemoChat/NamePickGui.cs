@@ -11,18 +11,18 @@ using UnityEngine.UI;
 
 namespace Photon.Chat.Demo
 {
-    [RequireComponent(typeof(ChatGui))]
+   // [RequireComponent(typeof(ChatGui))]
     public class NamePickGui : MonoBehaviour
     {
         private const string UserNamePlayerPref = "NamePickUserName";
 
-        public ChatGui chatNewComponent;
+     //   public ChatGui chatNewComponent;
 
         public InputField idInput;
 
         public void Start()
         {
-            this.chatNewComponent = FindObjectOfType<ChatGui>();
+            //this.chatNewComponent = FindObjectOfType<ChatGui>();
 
 
             string prefsName = PlayerPrefs.GetString(UserNamePlayerPref);
@@ -44,12 +44,12 @@ namespace Photon.Chat.Demo
 
         public void StartChat()
         {
-            ChatGui chatNewComponent = FindObjectOfType<ChatGui>();
-            chatNewComponent.UserName = this.idInput.text.Trim();
-            chatNewComponent.Connect();
+            //ChatGui chatNewComponent = FindObjectOfType<ChatGui>();
+           // chatNewComponent.UserName = this.idInput.text.Trim();
+            //chatNewComponent.Connect();
             this.enabled = false;
 
-            PlayerPrefs.SetString(UserNamePlayerPref, chatNewComponent.UserName);
+            //PlayerPrefs.SetString(UserNamePlayerPref, chatNewComponent.UserName);
         }
     }
 }

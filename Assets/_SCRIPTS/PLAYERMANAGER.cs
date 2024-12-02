@@ -1,8 +1,8 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
-public class PLAYERMANAGER : Photon.MonoBehaviour {
+using Photon.Pun;
+public class PLAYERMANAGER : MonoBehaviourPunCallbacks {
 
 
 	public int ThisPlayerID, ThisViewID;
@@ -21,7 +21,7 @@ public class PLAYERMANAGER : Photon.MonoBehaviour {
 	// Update is called once per frame
 	void Update () {
 
-		if(photonView.isMine){
+		if(photonView.IsMine){
 			if(Input.GetKeyDown (KeyCode.C)){
 				gamelogicref.handevaluatorref.EvaluateHand (gamelogicref.playersData [ThisPlayerID].HandID);
 			}
@@ -31,7 +31,7 @@ public class PLAYERMANAGER : Photon.MonoBehaviour {
 
 	public void GetHand ()
 	{
-		if (photonView.isMine) {
+		if (photonView.IsMine) {
 			switch (ThisPlayerID) {
 
 			case 0:
@@ -60,7 +60,7 @@ public class PLAYERMANAGER : Photon.MonoBehaviour {
 
 	void SpawnHand ()
 	{
-		if (photonView.isMine) {
+		if (photonView.IsMine) {
 			GameObject card1, card2, card3;
 			card1 = (GameObject)Instantiate (gamelogicref.ALLCARDSPREFAB [gamelogicref.playersData [ThisPlayerID].HandID [0]], new Vector3 (gamelogicref.CARDSP [ThisPlayerID].position.x - 0.5f, 0.5f, gamelogicref.CARDSP [ThisPlayerID].position.z),
 				gamelogicref.ALLCARDSPREFAB [gamelogicref.playersData [ThisPlayerID].HandID [0]].transform.rotation);

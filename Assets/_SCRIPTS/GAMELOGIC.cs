@@ -5,7 +5,7 @@ using System;
 using UnityEngine.UI;
 using Photon.Pun;
 
-public class GAMELOGIC : PhotonNetwork {
+public class GAMELOGIC : MonoBehaviourPunCallbacks {
 
 
 	public enum PHASE{
@@ -106,7 +106,7 @@ public class GAMELOGIC : PhotonNetwork {
 		TAPIS = PlayerPrefs.GetInt ("MONEY");
 
 		if(PhotonNetwork.IsMasterClient){
-			photonView.RPC ("InitializeAllCards", PhotonTargets.AllBuffered);
+			photonView.RPC ("InitializeAllCards", RpcTarget.AllBuffered);
 		}
 
 		InitializePlayer ();
@@ -118,27 +118,27 @@ public class GAMELOGIC : PhotonNetwork {
 
 	void InitializePlayer ()
 	{
-		if(PhotonNetwork.player.CustomProperties.ContainsValue ("P1")){
+		if(PhotonNetwork.LocalPlayer.CustomProperties.ContainsValue ("P1")){
 			GameObject thisplayer;
 			thisplayer = (GameObject)PhotonNetwork.Instantiate ("Prefabs/" + PlayerPrefab.name, Vector3.zero, PlayerPrefab.transform.rotation, 0);
-			PhotonNetwork.player.NickName = "Player1";
+			PhotonNetwork.LocalPlayer.NickName = "Player1";
 			LocalPlayerID = 0;
 			LocalViewID = 1001;
-			photonView.RPC ("InitializePlayerToServer", PhotonTargets.All, LocalPlayerID, LocalViewID, PhotonNetwork.player.NickName);
-		} else if(PhotonNetwork.player.CustomProperties.ContainsValue ("P2")){
+			photonView.RPC ("InitializePlayerToServer", RpcTarget.All, LocalPlayerID, LocalViewID, PhotonNetwork.LocalPlayer.NickName);
+		} else if(PhotonNetwork.LocalPlayer.CustomProperties.ContainsValue ("P2")){
 			GameObject thisplayer;
 			thisplayer = (GameObject)PhotonNetwork.Instantiate ("Prefabs/" + PlayerPrefab.name,Vector3.zero, PlayerPrefab.transform.rotation, 0);
-			PhotonNetwork.player.NickName = "Player2";
+			PhotonNetwork.LocalPlayer.NickName = "Player2";
 			LocalPlayerID = 1;
 			LocalViewID = 2001;
-			photonView.RPC ("InitializePlayerToServer", PhotonTargets.All, LocalPlayerID, LocalViewID, PhotonNetwork.player.NickName);
-		} else if(PhotonNetwork.player.CustomProperties.ContainsValue ("P3")){
+			photonView.RPC ("InitializePlayerToServer", RpcTarget.All, LocalPlayerID, LocalViewID, PhotonNetwork.LocalPlayer.NickName);
+		} else if(PhotonNetwork.LocalPlayer.CustomProperties.ContainsValue ("P3")){
 			GameObject thisplayer;
 			thisplayer = (GameObject)PhotonNetwork.Instantiate ("Prefabs/" + PlayerPrefab.name, Vector3.zero, PlayerPrefab.transform.rotation, 0);
-			PhotonNetwork.player.NickName = "Player3";
+			PhotonNetwork.LocalPlayer.NickName = "Player3";
 			LocalPlayerID = 2;
 			LocalViewID = 3001;
-			photonView.RPC ("InitializePlayerToServer", PhotonTargets.All, LocalPlayerID, LocalViewID, PhotonNetwork.player.NickName);
+			photonView.RPC ("InitializePlayerToServer", RpcTarget.All, LocalPlayerID, LocalViewID, PhotonNetwork.LocalPlayer.NickName);
 		}
 	}
 
@@ -162,7 +162,7 @@ public class GAMELOGIC : PhotonNetwork {
 		playersData [PlayerID].UsernameText.text = Username;
 		playersData [PlayerID].TapisText.text = "" + playersData [PlayerID].curTapis;
 
-		if(PhotonView.Find (PlayerViewID).isMine){
+		if(PhotonView.Find (PlayerViewID).IsMine){
 
 			playersData [PlayerID].SideSlot.GetComponent <Image> ().color = Color.cyan;
 
